@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/currency-converter",
+            "outputPath": "dist/angular-currency-converter",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -25,7 +25,8 @@
             "inlineStyleLanguage": "sass",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.sass"],
-            "scripts": []
+            "scripts": [],
+            "baseHref": "/angular-currency-converter/"
           },
           "configurations": {
             "production": {
