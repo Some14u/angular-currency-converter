@@ -1,0 +1,7 @@
+@import './_variables'
+
+@function generateGradient($lightness)
+  $color1: adjust-color($baseColor1, $lightness: $lightness)
+  $color2: adjust-color($baseColor2, $lightness: $lightness)
+  $color3: adjust-color($baseColor3, $lightness: $lightness)
+  @return linear-gradient(150deg, $color1 0%, $color2 25%, $color3 50%, $color2 75%) fixed

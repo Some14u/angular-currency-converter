@@ -1,0 +1,11 @@
+<header class="header">
+  <h2 class="header-title">Currency Exchange Rates</h2>
+  <div class="exchange-rates">
+    <p *ngIf="usdToUah" class="exchange-rate">
+      <span>USD to UAH:</span><span class="rate">{{ usdToUah.rate }}</span>
+    </p>
+    <p *ngIf="eurToUah" class="exchange-rate">
+      <span>EUR to UAH:</span><span class="rate">{{ eurToUah.rate }}</span>
+    </p>
+  </div>
+</header>

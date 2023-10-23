@@ -1,0 +1,112 @@
+@import '../styles/_helpers'
+
+form
+	position: relative
+	max-width: 250px
+	padding: 15px 25px 25px 25px
+	box-shadow: 0 3px 7px rgb(12 23 31 / 20%)
+	border-radius: 5px
+	background: generateGradient(30%)
+	background-blend-mode: multiply
+	display: flex
+	gap: 20px
+	flex-direction: column
+
+/* Nice colorful shadow */
+form::before
+	position: absolute
+	content: ""
+	top: 10px
+	left: 0
+	bottom: 0
+	right: 0
+	background: generateGradient(25%)
+	border-radius: 5px
+	filter: blur(20px)
+	z-index: -1
+
+.input-group
+	position: relative
+	display: flex
+	border-radius: 11px
+	border: 3px solid transparent
+
+	background: linear-gradient(white, white) padding-box, generateGradient(15%)
+	background-attachment: fixed
+	background-color: white
+	padding: 4px
+	box-shadow: none
+	transition: box-shadow 0.2s
+
+	&:hover
+		box-shadow: 0 0 8px rgba(0, 221, 255, 0.5)
+
+	&:focus-within
+		box-shadow: 0 0 8px rgba(0, 221, 255, 0.2)
+		background-color: transparent
+
+	&::after
+		content: ""
+		box-sizing: border-box
+		position: absolute
+		top: 0
+		bottom: 0
+		left: 0
+		right: 0
+		border-radius: 11px
+		border: 3.5px solid white
+		margin: -3px
+		pointer-events: none
+		transition: border-color 0.2s
+
+	&:focus-within::after
+		border-color: transparent
+
+input.form-control,
+select.form-control
+	width: 100%
+	box-sizing: border-box
+	border: none
+	border-radius: 5px
+	padding: 8px
+	font-size: 16px
+	outline: none
+
+/* Hide input spinner */
+input.form-control[type="number"]::-webkit-outer-spin-button,
+input.form-control[type="number"]::-webkit-inner-spin-button
+	-webkit-appearance: none
+	margin: 0
+
+/* Hide input spinner in Firefox */
+input.form-control[type="number"]
+	appearance: textfield
+	-moz-appearance: textfield
+
+select.form-control
+	width: 4.2em
+	min-width: 4.2em
+	appearance: none
+	background: linear-gradient(45deg, transparent 50%, #0008 50%), linear-gradient(135deg, #0008 50%, transparent 50%), generateGradient(10%)
+	background-position: calc(100% - 14px) calc(1em - 1px), calc(100% - 9px) calc(1em - 1px), 0 0
+	background-size: 5px 5px, 5px 5px, 100% 100%
+	background-repeat: no-repeat
+	background-attachment: local local fixed
+	transition: opacity 0.03s
+	cursor: pointer
+
+select.form-control:focus-visible
+	box-shadow: 0 0 4px 2px rgba(0, 180, 207, 0.5)
+
+select.form-control:focus,
+select.form-control:hover
+	opacity: 0.9
+
+label
+	font-weight: bold
+	margin-bottom: 8px
+	display: block
+
+.error-message
+	color: rgb(216, 87, 87)
+	font-weight: 600

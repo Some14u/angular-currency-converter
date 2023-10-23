@@ -1,0 +1,37 @@
+<form [formGroup]="currencyConversionForm">
+  <div class="form-group">
+    <label for="firstCurrency">First Currency</label>
+    <div class="input-group">
+      <input
+        type="number"
+        formControlName="firstAmount"
+        class="form-control"
+        min="0"
+      />
+      <select formControlName="firstCurrency" class="form-control">
+        <option *ngFor="let currency of supportedCurrencies" [value]="currency">
+          {{ currency }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="secondCurrency">Second Currency</label>
+    <div class="input-group">
+      <input
+        type="number"
+        formControlName="secondAmount"
+        class="form-control"
+        min="0"
+      />
+      <select formControlName="secondCurrency" class="form-control">
+        <option *ngFor="let currency of supportedCurrencies" [value]="currency">
+          {{ currency }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+</form>
