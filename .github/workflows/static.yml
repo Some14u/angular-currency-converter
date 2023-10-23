@@ -1,0 +1,25 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      CURRENCY_SERVICE_API_KEY: ${{ secrets.CURRENCY_SERVICE_API_KEY }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: All things angular
+        uses: AhsanAyaz/angular-deploy-gh-pages-actions@[version]
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          build_configuration: staging
+          base_href: /angular-currency-converter/
+          deploy_branch: gh-pages
+          angular_dist_build_folder: dist/angular-currency-converter
