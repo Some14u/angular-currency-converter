@@ -21,6 +21,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Set Environment Variable
+        run: |
+          echo "export const environment = {" > src/environments/environment.ts
+          echo "  production: true," >> src/environments/environment.ts
+          echo "  currencyServiceApiKey: '${{ secrets.CURRENCY_SERVICE_API_KEY }}'" >> src/environments/environment.ts
+          echo "};" >> src/environments/environment.ts
+
       - name: Deploy to GitHub Pages
         uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.4.0
         with:
@@ -28,6 +35,5 @@ jobs:
           build_configuration: production
           base_href: /angular-currency-converter/
           deploy_branch: gh-pages
-          angular_dist_build_folder: dist
-        env:
-          CURRENCY_SERVICE_API_KEY: ${{ secrets.CURRENCY_SERVICE_API_KEY }}
+          angular_dist_build_folder: dist/angular-currency-converter
+
