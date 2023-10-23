@@ -35,5 +35,5 @@ jobs:
           build_configuration: production
           base_href: /angular-currency-converter/
           deploy_branch: gh-pages
-          angular_dist_build_folder: dist
+          angular_dist_build_folder: dist/angular-currency-converter
 
