@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build and Deploy Angular App
 
 on:
   push:
@@ -9,17 +9,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      CURRENCY_SERVICE_API_KEY: ${{ secrets.CURRENCY_SERVICE_API_KEY }}
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: All things angular
-        uses: AhsanAyaz/angular-deploy-gh-pages-actions@[version]
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy to GitHub Pages
+        uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.4.0
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
-          build_configuration: staging
+          build_configuration: production
           base_href: /angular-currency-converter/
           deploy_branch: gh-pages
           angular_dist_build_folder: dist/angular-currency-converter
+        env:
+          CURRENCY_SERVICE_API_KEY: ${{ secrets.CURRENCY_SERVICE_API_KEY }}
