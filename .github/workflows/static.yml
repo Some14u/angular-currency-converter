@@ -22,7 +22,11 @@ jobs:
         run: npm install
 
       - name: Set Environment Variable
-        run: echo "export const environment = { production: true, currencyServiceApiKey: '${{ secrets.CURRENCY_SERVICE_API_KEY }}' }" > src/environments/environment.ts
+        run: |
+          echo "export const environment = {" > src/environments/environment.ts
+          echo "  production: true," >> src/environments/environment.ts
+          echo "  currencyServiceApiKey: '${{ secrets.CURRENCY_SERVICE_API_KEY }}'" >> src/environments/environment.ts
+          echo "};" >> src/environments/environment.ts
 
       - name: Deploy to GitHub Pages
         uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.4.0
