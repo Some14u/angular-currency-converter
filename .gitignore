@@ -44,3 +44,4 @@ Thumbs.db
 # environment configs
 /src/environments/*.ts
 !/src/environments/*.example.ts
+!/src/environments/environment.ts

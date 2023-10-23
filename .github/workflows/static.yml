@@ -28,6 +28,6 @@ jobs:
           build_configuration: production
           base_href: /angular-currency-converter/
           deploy_branch: gh-pages
-          angular_dist_build_folder: dist/angular-currency-converter
+          angular_dist_build_folder: dist
         env:
           CURRENCY_SERVICE_API_KEY: ${{ secrets.CURRENCY_SERVICE_API_KEY }}
