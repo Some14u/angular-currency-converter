@@ -1,7 +1,7 @@
 <header class="header">
   <h2 class="header-title">Currency Exchange Rates</h2>
   <div class="exchange-rates">
-    <ng-container *ngIf="!errorMessage; else error">
+    <ng-container *ngIf="!errorMessage">
       <ng-container
         *ngTemplateOutlet="
           exchangeRateTemplate;
@@ -15,22 +15,16 @@
         "
       />
     </ng-container>
+    <app-error *ngIf="errorMessage" [errorMessage]="errorMessage" />
   </div>
 </header>
 
 <ng-template #exchangeRateTemplate let-currency="currency" let-rate="rate">
   <p class="exchange-rate">
     <span>{{ currency }} to UAH:</span>
-    <ng-container *ngIf="!isLoading; else loading">
+    <ng-container *ngIf="!isLoading">
       <span class="rate">{{ rate }}</span>
     </ng-container>
+    <app-loader *ngIf="isLoading" />
   </p>
-</ng-template>
-
-<ng-template #loading>
-  <img src="assets/spinner.svg" alt="Loading..." class="spinner" />
-</ng-template>
-
-<ng-template #error>
-  <p class="error-message">{{ errorMessage }}</p>
 </ng-template>

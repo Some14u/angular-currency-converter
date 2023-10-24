@@ -33,5 +33,6 @@
     </div>
   </div>
 
-  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <app-error *ngIf="errorMessage" [errorMessage]="errorMessage" />
+  <app-loader *ngIf="isLoading" class="loader" />
 </form>

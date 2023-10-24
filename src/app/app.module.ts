@@ -8,6 +8,7 @@ import { CurrencyConverterComponent } from './currency-converter/currency-conver
 import { CurrencyServiceImpl } from './services/currency.service.impl';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    SharedModule,
   ],
   providers: [CurrencyServiceImpl],
   bootstrap: [AppComponent],
