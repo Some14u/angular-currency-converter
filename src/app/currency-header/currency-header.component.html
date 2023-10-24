@@ -1,11 +1,36 @@
 <header class="header">
   <h2 class="header-title">Currency Exchange Rates</h2>
   <div class="exchange-rates">
-    <p *ngIf="usdToUah" class="exchange-rate">
-      <span>USD to UAH:</span><span class="rate">{{ usdToUah.rate }}</span>
-    </p>
-    <p *ngIf="eurToUah" class="exchange-rate">
-      <span>EUR to UAH:</span><span class="rate">{{ eurToUah.rate }}</span>
-    </p>
+    <ng-container *ngIf="!errorMessage; else error">
+      <ng-container
+        *ngTemplateOutlet="
+          exchangeRateTemplate;
+          context: { currency: 'USD', rate: usdToUah?.rate }
+        "
+      />
+      <ng-container
+        *ngTemplateOutlet="
+          exchangeRateTemplate;
+          context: { currency: 'EUR', rate: eurToUah?.rate }
+        "
+      />
+    </ng-container>
   </div>
 </header>
+
+<ng-template #exchangeRateTemplate let-currency="currency" let-rate="rate">
+  <p class="exchange-rate">
+    <span>{{ currency }} to UAH:</span>
+    <ng-container *ngIf="!isLoading; else loading">
+      <span class="rate">{{ rate }}</span>
+    </ng-container>
+  </p>
+</ng-template>
+
+<ng-template #loading>
+  <img src="assets/spinner.svg" alt="Loading..." class="spinner" />
+</ng-template>
+
+<ng-template #error>
+  <p class="error-message">{{ errorMessage }}</p>
+</ng-template>

@@ -8,7 +8,7 @@ export interface CurrencyService {
   >(
     base: Base,
     obtanableRates: Rates[]
-  ): Observable<ExchangeRateResponse<Base, Rates>>;
+  ): Observable<ApiExchangeRateResponse<Base, Rates>>;
 
   convert<
     From extends SupportedCurrency = SupportedCurrency,
@@ -17,37 +17,7 @@ export interface CurrencyService {
     from: From,
     to: To,
     amount: number
-  ): Observable<ConversionResponse<From, To>>;
-}
-
-export interface ExchangeRateResponse<
-  Base extends SupportedCurrency = SupportedCurrency,
-  Rates extends SupportedCurrency = SupportedCurrency
-> {
-  success: boolean;
-  timestamp: number;
-  base: Base;
-  date: string;
-  rates: { [key in Rates]: number };
-}
-
-export interface ConversionResponse<
-  From extends SupportedCurrency = SupportedCurrency,
-  To extends SupportedCurrency = SupportedCurrency
-> {
-  success: boolean;
-  query: {
-    from: From;
-    to: To;
-    amount: number;
-  };
-  info: {
-    timestamp: number;
-    rate: number;
-  };
-  historical: string;
-  date: string;
-  result: number;
+  ): Observable<ApiConversionResponse<From, To>>;
 }
 
 export type SupportedCurrency =
@@ -60,4 +30,27 @@ export interface CurrencyRate<
   from: From;
   to: To;
   rate: number;
+}
+
+export interface ApiExchangeRateResponse<
+  Base extends SupportedCurrency = SupportedCurrency,
+  Rates extends SupportedCurrency = SupportedCurrency
+> {
+  base: Base;
+  rates: { [key in Rates]: number };
+}
+
+export interface ApiConversionResponse<
+  From extends SupportedCurrency = SupportedCurrency,
+  To extends SupportedCurrency = SupportedCurrency
+> {
+  query: {
+    from: From;
+    to: To;
+    amount: number;
+  };
+  info: {
+    rate: number;
+  };
+  result: number;
 }

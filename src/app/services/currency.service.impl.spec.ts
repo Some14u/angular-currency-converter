@@ -4,7 +4,10 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { CurrencyServiceImpl } from './currency.service.impl';
-import { ConversionResponse, ExchangeRateResponse } from './currency.service';
+import {
+  ApiConversionResponse,
+  ApiExchangeRateResponse,
+} from './currency.service';
 import { SupportedCurrency } from './supported-currency.enum';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -28,14 +31,11 @@ describe('CurrencyServiceImpl', () => {
   it('should retrieve exchange rates', (done) => {
     const baseCurrency = SupportedCurrency.UAH;
     const obtainableRates = [SupportedCurrency.USD, SupportedCurrency.EUR];
-    const mockResponse: ExchangeRateResponse<
+    const mockResponse: ApiExchangeRateResponse<
       typeof SupportedCurrency.UAH,
       typeof SupportedCurrency.USD | typeof SupportedCurrency.EUR
     > = {
-      success: true,
-      timestamp: 1234567890,
       base: baseCurrency,
-      date: '2023-10-21',
       rates: {
         [SupportedCurrency.USD]: 1.0,
         [SupportedCurrency.EUR]: 0.85,
@@ -69,16 +69,13 @@ describe('CurrencyServiceImpl', () => {
     const fromCurrency = SupportedCurrency.USD;
     const toCurrency = SupportedCurrency.EUR;
     const amount = 100;
-    const mockResponse: ConversionResponse<
+    const mockResponse: ApiConversionResponse<
       typeof SupportedCurrency.USD,
       typeof SupportedCurrency.EUR
     > = {
-      success: true,
       query: { from: fromCurrency, to: toCurrency, amount },
-      info: { timestamp: 1234567890, rate: 0.85 },
+      info: { rate: 0.85 },
       result: amount * 0.85,
-      historical: 'false',
-      date: '2023-10-21',
     };
 
     service.convert(fromCurrency, toCurrency, amount).subscribe((response) => {

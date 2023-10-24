@@ -8,14 +8,7 @@ import {
 import { CurrencyServiceImpl } from '../services/currency.service.impl';
 import { type SupportedCurrency } from '../services/currency.service';
 import { SupportedCurrency as Currency } from '../services/supported-currency.enum';
-import {
-  Subscription,
-  catchError,
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  throwError,
-} from 'rxjs';
+import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 import { formatCurrency } from '../shared/utils/format-currency.util';
 
 @Component({
@@ -24,8 +17,6 @@ import { formatCurrency } from '../shared/utils/format-currency.util';
   styleUrls: ['./currency-converter.component.sass'],
 })
 export class CurrencyConverterComponent implements OnInit, OnDestroy {
-  static readonly CONVERSION_REQUEST_ERROR =
-    'An error occurred during conversion. Please try again later.';
   static readonly DEBOUNCE_TIME_MS = 500;
 
   currencyConversionForm: FormGroup;
@@ -43,6 +34,8 @@ export class CurrencyConverterComponent implements OnInit, OnDestroy {
   errorMessage: string | null = null;
 
   valueChangeSubscription: Subscription | null = null;
+
+  isLoading: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -117,24 +110,22 @@ export class CurrencyConverterComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.isLoading = true;
+    this.currencyConversionForm.disable();
     this.currencyService
       .convert(fromCurrency, toCurrency, fromAmountControl.value)
-      .pipe(
-        map((response) => {
-          if (response.success) {
-            return response;
-          }
-          throw new Error();
-        }),
-        catchError((error) => {
-          this.errorMessage =
-            CurrencyConverterComponent.CONVERSION_REQUEST_ERROR;
-          return throwError(() => error);
-        })
-      )
-      .subscribe((response) => {
-        toAmountControl.patchValue(formatCurrency(response.result));
-        this.errorMessage = null;
+      .subscribe({
+        next: (response) => {
+          this.currencyConversionForm.enable();
+          this.isLoading = false;
+          toAmountControl.patchValue(formatCurrency(response.result));
+          this.errorMessage = null;
+        },
+        error: (error) => {
+          this.currencyConversionForm.enable();
+          this.isLoading = false;
+          this.errorMessage = (error as Error).message;
+        },
       });
     this.currencyConversionForm.markAsPristine();
   }
