@@ -29,7 +29,6 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           git checkout --orphan gh-pages
-          git --set-upstream=origin/main
           git pull
           mv dist/* .
           rm -r dist
