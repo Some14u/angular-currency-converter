@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 100 100">
+  <g>
+    <path fill="currentColor" d="M92.5 53.9 79.2 42.2 67.4 55.5l7.1-.4c-1.9 9.1-8.9 16.6-18 19.1-11 2.9-22.5-1.9-28.2-11.7l-9 5.2A35.67 35.67 0 0 0 50 85.4c3 0 6.1-.4 9.1-1.2a35.67 35.67 0 0 0 26-29.8l7.4-.5z" />
+    <path fill="currentColor" d="M40.8 15.8a35.7 35.7 0 0 0-25.9 29.8l-7.4.5 13.3 11.7 11.8-13.3-7.1.4c1.9-9.1 8.9-16.6 18-19.1a25.1 25.1 0 0 1 28.1 11.6l9-5.2a35.6 35.6 0 0 0-39.8-16.4" />
+    <animateTransform attributeName="transform" attributeType="xml" dur="1.5s" from="360 50 50" repeatCount="indefinite" to="0 50 50" type="rotate" />
+  </g>
+</svg>
