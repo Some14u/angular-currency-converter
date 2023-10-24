@@ -35,7 +35,6 @@ jobs:
           echo "};" >> src/environments/environment.ts
 
       - name: Deploy to GitHub Pages
-        id: deployment
         uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.4.0
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
@@ -43,3 +42,7 @@ jobs:
           base_href: /angular-currency-converter/
           deploy_branch: gh-pages
           angular_dist_build_folder: dist/angular-currency-converter
+
+      - name: Deploy to GitHub Pages2
+        id: deployment
+        uses: actions/deploy-pages@v2
