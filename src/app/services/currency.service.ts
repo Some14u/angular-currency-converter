@@ -8,7 +8,7 @@ export interface CurrencyService {
   >(
     base: Base,
     obtanableRates: Rates[]
-  ): Observable<ApiExchangeRateResponse<Base, Rates>>;
+  ): Observable<ExchangeRateResponse<Base, Rates>>;
 
   convert<
     From extends SupportedCurrency = SupportedCurrency,
@@ -17,7 +17,23 @@ export interface CurrencyService {
     from: From,
     to: To,
     amount: number
-  ): Observable<ApiConversionResponse<From, To>>;
+  ): Observable<ConversionResponse<From, To>>;
+
+  extractRate<
+    From extends SupportedCurrency = SupportedCurrency,
+    To extends SupportedCurrency = SupportedCurrency
+  >(
+    rateResponse: ExchangeRateResponse<From, To> | ConversionResponse<From, To>,
+    toCurrency: To
+  ): CurrencyRate<From, To>;
+
+  extractInvertedRate<
+    From extends SupportedCurrency = SupportedCurrency,
+    To extends SupportedCurrency = SupportedCurrency
+  >(
+    rateResponse: ExchangeRateResponse<From, To> | ConversionResponse<From, To>,
+    toCurrency: To
+  ): CurrencyRate<To, From>;
 }
 
 export type SupportedCurrency =
@@ -32,7 +48,7 @@ export interface CurrencyRate<
   rate: number;
 }
 
-export interface ApiExchangeRateResponse<
+export interface ExchangeRateResponse<
   Base extends SupportedCurrency = SupportedCurrency,
   Rates extends SupportedCurrency = SupportedCurrency
 > {
@@ -40,7 +56,7 @@ export interface ApiExchangeRateResponse<
   rates: { [key in Rates]: number };
 }
 
-export interface ApiConversionResponse<
+export interface ConversionResponse<
   From extends SupportedCurrency = SupportedCurrency,
   To extends SupportedCurrency = SupportedCurrency
 > {

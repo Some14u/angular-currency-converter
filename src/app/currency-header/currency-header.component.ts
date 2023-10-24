@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { CurrencyServiceImpl } from '../services/currency.service.impl';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   CurrencyRate,
-  ApiExchangeRateResponse,
+  CurrencyService,
+  ExchangeRateResponse,
 } from '../services/currency.service';
 import { SupportedCurrency } from '../services/supported-currency.enum';
 import { formatCurrency } from '../shared/utils/format-currency.util';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { CurrencyServiceToken } from '../services/currency.service.token';
 
 @Component({
   selector: 'app-currency-header',
@@ -16,14 +16,16 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 export class CurrencyHeaderComponent implements OnInit {
   SPINNER_URL = 'assets/spinner.svg';
 
-  exchangeRates: ApiExchangeRateResponse | undefined;
+  exchangeRates: ExchangeRateResponse | undefined;
   usdToUah: CurrencyRate | undefined;
   eurToUah: CurrencyRate | undefined;
 
   isLoading = true;
   errorMessage: string | null = null;
 
-  constructor(private currencyService: CurrencyServiceImpl) {}
+  constructor(
+    @Inject(CurrencyServiceToken) private currencyService: CurrencyService
+  ) {}
 
   ngOnInit(): void {
     this.currencyService

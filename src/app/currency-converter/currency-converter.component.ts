@@ -1,15 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { CurrencyServiceImpl } from '../services/currency.service.impl';
-import { type SupportedCurrency } from '../services/currency.service';
+import {
+  CurrencyService,
+  type SupportedCurrency,
+} from '../services/currency.service';
 import { SupportedCurrency as Currency } from '../services/supported-currency.enum';
 import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 import { formatCurrency } from '../shared/utils/format-currency.util';
+import { CurrencyServiceToken } from '../services/currency.service.token';
 
 @Component({
   selector: 'app-currency-converter',
@@ -39,7 +42,7 @@ export class CurrencyConverterComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private currencyService: CurrencyServiceImpl
+    @Inject(CurrencyServiceToken) private currencyService: CurrencyService
   ) {
     this.firstAmount = new FormControl(0, [Validators.min(0)]);
     this.firstCurrency = new FormControl(Currency.UAH);

@@ -9,6 +9,7 @@ import { CurrencyServiceImpl } from './services/currency.service.impl';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
+import { CurrencyServiceToken } from './services/currency.service.token';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { SharedModule } from './shared/shared.module';
     HttpClientModule,
     SharedModule,
   ],
-  providers: [CurrencyServiceImpl],
+  providers: [{ provide: CurrencyServiceToken, useClass: CurrencyServiceImpl }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

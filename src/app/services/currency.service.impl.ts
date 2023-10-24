@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, catchError, of, tap, throwError } from 'rxjs';
+import { Observable, catchError, of, tap } from 'rxjs';
 import {
-  ApiConversionResponse,
+  ConversionResponse,
   CurrencyRate,
   CurrencyService,
-  ApiExchangeRateResponse,
+  ExchangeRateResponse,
   SupportedCurrency,
 } from './currency.service';
 import { environment } from 'src/environments/environment';
@@ -39,13 +39,13 @@ export class CurrencyServiceImpl implements CurrencyService {
   >(
     base: Base,
     obtainableRates: Rates[]
-  ): Observable<ApiExchangeRateResponse<Base, Rates>> {
+  ): Observable<ExchangeRateResponse<Base, Rates>> {
     const symbols = obtainableRates.join(',');
 
     const params = new HttpParams().set('base', base).set('symbols', symbols);
 
     return this.http
-      .get<ApiExchangeRateResponse<Base, Rates>>(
+      .get<ExchangeRateResponse<Base, Rates>>(
         CurrencyServiceImpl.API_URL + CurrencyServiceImpl.ApiEndpoint.LATEST,
         {
           headers: this.headers,
@@ -65,7 +65,7 @@ export class CurrencyServiceImpl implements CurrencyService {
     from: From,
     to: To,
     amount: number
-  ): Observable<ApiConversionResponse<From, To>> {
+  ): Observable<ConversionResponse<From, To>> {
     const cachedResult = this.convertUsingCache(from, to, amount);
 
     if (cachedResult) {
@@ -77,7 +77,7 @@ export class CurrencyServiceImpl implements CurrencyService {
       .set('to', to)
       .set('amount', amount.toString());
     return this.http
-      .get<ApiConversionResponse<From, To>>(
+      .get<ConversionResponse<From, To>>(
         CurrencyServiceImpl.API_URL + CurrencyServiceImpl.ApiEndpoint.CONVERT,
         {
           headers: this.headers,
@@ -94,9 +94,7 @@ export class CurrencyServiceImpl implements CurrencyService {
     From extends SupportedCurrency = SupportedCurrency,
     To extends SupportedCurrency = SupportedCurrency
   >(
-    rateResponse:
-      | ApiExchangeRateResponse<From, To>
-      | ApiConversionResponse<From, To>,
+    rateResponse: ExchangeRateResponse<From, To> | ConversionResponse<From, To>,
     toCurrency: To
   ): CurrencyRate<From, To> {
     if ('rates' in rateResponse) {
@@ -118,9 +116,7 @@ export class CurrencyServiceImpl implements CurrencyService {
     From extends SupportedCurrency = SupportedCurrency,
     To extends SupportedCurrency = SupportedCurrency
   >(
-    rateResponse:
-      | ApiExchangeRateResponse<From, To>
-      | ApiConversionResponse<From, To>,
+    rateResponse: ExchangeRateResponse<From, To> | ConversionResponse<From, To>,
     toCurrency: To
   ): CurrencyRate<To, From> {
     const normalRate = this.extractRate(rateResponse, toCurrency);
@@ -135,9 +131,7 @@ export class CurrencyServiceImpl implements CurrencyService {
     From extends SupportedCurrency = SupportedCurrency,
     To extends SupportedCurrency = SupportedCurrency
   >(
-    rateResponse:
-      | ApiExchangeRateResponse<From, To>
-      | ApiConversionResponse<From, To>
+    rateResponse: ExchangeRateResponse<From, To> | ConversionResponse<From, To>
   ) {
     if ('rates' in rateResponse) {
       for (const currency of Object.keys(rateResponse.rates) as To[]) {
@@ -172,11 +166,7 @@ export class CurrencyServiceImpl implements CurrencyService {
   private convertUsingCache<
     From extends SupportedCurrency = SupportedCurrency,
     To extends SupportedCurrency = SupportedCurrency
-  >(
-    from: From,
-    to: To,
-    amount: number
-  ): ApiConversionResponse<From, To> | null {
+  >(from: From, to: To, amount: number): ConversionResponse<From, To> | null {
     const cache = this.cachedRates.get(from);
     const rate = cache?.get(to);
 

@@ -4,10 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { CurrencyServiceImpl } from './currency.service.impl';
-import {
-  ApiConversionResponse,
-  ApiExchangeRateResponse,
-} from './currency.service';
+import { ConversionResponse, ExchangeRateResponse } from './currency.service';
 import { SupportedCurrency } from './supported-currency.enum';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -31,7 +28,7 @@ describe('CurrencyServiceImpl', () => {
   it('should retrieve exchange rates', (done) => {
     const baseCurrency = SupportedCurrency.UAH;
     const obtainableRates = [SupportedCurrency.USD, SupportedCurrency.EUR];
-    const mockResponse: ApiExchangeRateResponse<
+    const mockResponse: ExchangeRateResponse<
       typeof SupportedCurrency.UAH,
       typeof SupportedCurrency.USD | typeof SupportedCurrency.EUR
     > = {
@@ -69,7 +66,7 @@ describe('CurrencyServiceImpl', () => {
     const fromCurrency = SupportedCurrency.USD;
     const toCurrency = SupportedCurrency.EUR;
     const amount = 100;
-    const mockResponse: ApiConversionResponse<
+    const mockResponse: ConversionResponse<
       typeof SupportedCurrency.USD,
       typeof SupportedCurrency.EUR
     > = {
