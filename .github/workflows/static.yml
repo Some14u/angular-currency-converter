@@ -1,0 +1,45 @@
+name: Build and Deploy Angular App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: Production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+      - name: Check CURRENCY_SERVICE_API_KEY secret
+        run: |
+          if [ -z "${{ secrets.CURRENCY_SERVICE_API_KEY }}" ]; then
+            echo "CURRENCY_SERVICE_API_KEY secret is not set or empty. Workflow will be halted."
+            exit 1
+          fi
+      - name: Set Environment Variable
+        run: |
+          echo "export const environment = {" > src/environments/environment.ts
+          echo "  production: true," >> src/environments/environment.ts
+          echo "  currencyServiceApiKey: '${{ secrets.CURRENCY_SERVICE_API_KEY }}'" >> src/environments/environment.ts
+          echo "};" >> src/environments/environment.ts
+
+      - name: Deploy to GitHub Pages
+        uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.4.0
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          build_configuration: production
+          base_href: /angular-currency-converter/
+          deploy_branch: gh-pages
+          angular_dist_build_folder: dist/angular-currency-converter
+
